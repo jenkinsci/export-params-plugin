@@ -2,8 +2,8 @@ export-params-plugin: Export Parameters Plugin for Jenkins
 ==============================
 
 * Author: rinrinne a.k.a. rin_ne
-* Repository: http://github.com/
-* Plugin Information: https://wiki.jenkins-ci.org/display/JENKINS/
+* Repository: http://github.com/jenkinsci/export-params-plugin
+* Plugin Information: https://wiki.jenkins-ci.org/display/JENKINS/Export+Params
 
 Synopsis
 ----------------

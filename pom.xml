@@ -6,13 +6,12 @@
     <version>1.509.4</version><!-- which version of Jenkins is this plugin built against? -->
   </parent>
 
-  <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>export-params</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>hpi</packaging>
-  <name>Export Prameters Plugin</name>
-  <description>A plugin that export parameters provided by Jenkins to file.</description>
-  <url>http://wiki.jenkins-ci.org/display/JENKINS/</url>
+  <name>Export Prameters</name>
+  <description>A plugin that export parameters provided by Jenkins to file with various formats.</description>
+  <url>http://wiki.jenkins-ci.org/display/JENKINS/Export+Params</url>
 
   <licenses>
     <license>
@@ -37,27 +36,56 @@
     <snakeyaml.version>1.13</snakeyaml.version>
   </properties>
 
-  <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
-  <repositories>
-    <repository>
-      <id>repo.jenkins-ci.org</id>
-      <url>http://repo.jenkins-ci.org/public/</url>
-    </repository>
-  </repositories>
-
   <dependencies>
     <dependency>
       <groupId>org.yaml</groupId>
       <artifactId>snakeyaml</artifactId>
-      <version>1.13</version>
+      <version>${snakeyaml.version}</version>
     </dependency>
   </dependencies>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>repo.jenkins-ci.org</id>
-      <url>http://repo.jenkins-ci.org/public/</url>
-    </pluginRepository>
-  </pluginRepositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-eclipse-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${basedir}/target/generated-sources/localizer</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jenkins-ci.tools</groupId>
+        <artifactId>maven-hpi-plugin</artifactId>
+        <configuration>
+          <defaultPort>8091</defaultPort>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <scm>
+    <connection>scm:git:http://github.com/jenkinsci/export-params-plugin.git</connection>
+    <developerConnection>scm:git:https://github.com/jenkinsci/export-params-plugin.git</developerConnection>
+    <url>https://github.com/jenkinsci/export-params-plugin</url>
+  </scm>
 
 </project>
