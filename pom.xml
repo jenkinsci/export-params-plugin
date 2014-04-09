@@ -11,7 +11,7 @@
   <packaging>hpi</packaging>
   <name>Export Prameters</name>
   <description>A plugin that export parameters provided by Jenkins to file with various formats.</description>
-  <url>http://wiki.jenkins-ci.org/display/JENKINS/Export+Params</url>
+  <url>http://wiki.jenkins-ci.org/display/JENKINS/Export+Parameters+Plugin</url>
 
   <licenses>
     <license>
