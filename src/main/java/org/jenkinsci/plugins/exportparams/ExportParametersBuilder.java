@@ -152,7 +152,7 @@ public class ExportParametersBuilder extends Builder {
     private ParametersAction createParametersAction(String filePath, String fileFormat) {
         List<ParameterValue> params = new ArrayList<ParameterValue>();
         params.add(new StringParameterValue(KEY_EXPORT_PARAMS_FILE, filePath));
-        params.add(new StringParameterValue("KEY_EXPORT_PARAMS_FORMAT", fileFormat));
+        params.add(new StringParameterValue(KEY_EXPORT_PARAMS_FORMAT, fileFormat));
         return new ParametersAction(params);
     }
 
