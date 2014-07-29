@@ -7,7 +7,7 @@
   </parent>
 
   <artifactId>export-params</artifactId>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.4-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <name>Export Prameters</name>
   <description>A plugin that export parameters provided by Jenkins to file with various formats.</description>
