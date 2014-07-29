@@ -79,7 +79,7 @@ public class PropertiesSerializer implements Serializer {
      * Store properties to output stream.
      *
      * @param props properties.
-     * @param os output stream.
+     * @param writer writer for output stream.
      * @throws IOException throw if any.
      */
     public void doStore(Properties props, Writer writer) throws IOException {
