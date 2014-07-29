@@ -23,7 +23,12 @@
  */
 package org.jenkinsci.plugins.exportparams;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -47,6 +52,7 @@ import hudson.model.ParameterValue;
 import hudson.model.ParametersAction;
 import hudson.model.StringParameterValue;
 import hudson.model.BuildListener;
+import hudson.remoting.VirtualChannel;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
 
@@ -130,11 +136,23 @@ public class ExportParametersBuilder extends Builder {
 
             Serializer serializer = SerializerFactory.createSerializer(fileFormat);
             if (serializer != null) {
-                String buf = serializer.serialize(env);
+                final String buf = serializer.serialize(env);
                 if (buf != null) {
                     try {
-                        paramFile.delete();
-                        paramFile.write(buf, CharEncoding.UTF_8);
+                        paramFile.act(new FilePath.FileCallable<Void>() {
+                            private static final long serialVersionUID = 1;
+                            @Override
+                            public Void invoke(File file, VirtualChannel channel) throws IOException, InterruptedException {
+                                if (file.exists()) {
+                                    file.delete();
+                                }
+                                BufferedWriter bw = new BufferedWriter(
+                                        new OutputStreamWriter(new FileOutputStream(file), CharEncoding.UTF_8));
+                                bw.write(buf);
+                                bw.close();
+                                return null;
+                            }
+                        });
                         listener.getLogger().println("Stored the below parameters into " + paramFile.getRemote());
                         for (String key : env.keySet()) {
                             listener.getLogger().println(key);
