@@ -23,8 +23,13 @@
  */
 package org.jenkinsci.plugins.exportparams.filter;
 
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 import hudson.EnvVars;
 import hudson.model.AbstractBuild;
+import hudson.model.ParametersAction;
+import hudson.model.ParameterValue;
 
 /**
  * A interface for filter.
@@ -53,6 +58,31 @@ public abstract class Filter {
      */
     public String getPattern() {
         return pattern;
+    }
+
+    /**
+     * Gets parameters from action.
+     *
+     * @return the list of parameters.
+     */
+    public List<ParameterValue> getParameters(ParametersAction action) {
+      Method m;
+      try {
+        m = ParametersAction.class.getMethod("getAllParameters", null);
+      } catch (NoSuchMethodException e) {
+        try {
+          m = ParametersAction.class.getMethod("getParameters", null);
+        } catch (NoSuchMethodException ex) {
+          return Collections.emptyList();
+        }
+      }
+      List<ParameterValue> params;
+      try {
+        params = (List<ParameterValue>) m.invoke(action, null);
+      } catch(Exception e) {
+        params = Collections.emptyList();
+      }
+      return params;
     }
 
     /**

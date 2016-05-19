@@ -58,7 +58,7 @@ public class RegExpFilter extends Filter {
 
         ParametersAction action = build.getAction(ParametersAction.class);
         if (action != null) {
-            for (ParameterValue param : action.getParameters()) {
+            for (ParameterValue param : getParameters(action)) {
                 if (regExp.matcher(param.getName()).matches()) {
                     param.buildEnvVars(build, env);
                 }

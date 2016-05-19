@@ -68,7 +68,7 @@ public class PlainListFilter extends Filter {
         EnvVars env = new EnvVars();
         ParametersAction action = build.getAction(ParametersAction.class);
         if (action != null) {
-            for (ParameterValue param : action.getParameters()) {
+            for (ParameterValue param : getParameters(action)) {
                 if (prefs.size() == 0) {
                     param.buildEnvVars(build, env);
                 } else {
