@@ -7,7 +7,7 @@
   </parent>
 
   <artifactId>export-params</artifactId>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.6-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <name>Export Prameters</name>
   <description>A plugin that export parameters provided by Jenkins to file with various formats.</description>
@@ -18,7 +18,7 @@
       <name>MIT</name>
       <url>http://www.opensource.org/licenses/mit-license.php</url>
       <comments>
-        Copyright 2014-2016 rinrinne a.k.a. rin_ne. All rights reserved.
+        Copyright 2014 rinrinne a.k.a. rin_ne. All rights reserved.
       </comments>
     </license>
   </licenses>
@@ -91,7 +91,6 @@
     <connection>scm:git:http://github.com/jenkinsci/export-params-plugin.git</connection>
     <developerConnection>scm:git:https://github.com/jenkinsci/export-params-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/export-params-plugin</url>
-    <tag>HEAD</tag>
   </scm>
 
 </project>
