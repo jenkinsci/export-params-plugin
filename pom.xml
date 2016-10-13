@@ -7,7 +7,7 @@
   </parent>
 
   <artifactId>export-params</artifactId>
-  <version>1.9-SNAPSHOT</version>
+  <version>1.9</version>
   <packaging>hpi</packaging>
   <name>Export Prameters</name>
   <description>A plugin that export parameters provided by Jenkins to file with various formats.</description>
@@ -91,7 +91,7 @@
     <connection>scm:git:http://github.com/jenkinsci/export-params-plugin.git</connection>
     <developerConnection>scm:git:https://github.com/jenkinsci/export-params-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/export-params-plugin</url>
-    <tag>HEAD</tag>
+    <tag>export-params-1.9</tag>
   </scm>
 
   <distributionManagement>
