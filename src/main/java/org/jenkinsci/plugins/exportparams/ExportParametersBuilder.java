@@ -43,6 +43,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
+import hudson.FilePath.FileCallable;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
@@ -128,23 +129,10 @@ public class ExportParametersBuilder extends Builder {
 
             Serializer serializer = SerializerFactory.createSerializer(fileFormat);
             if (serializer != null) {
-                final String buf = serializer.serialize(env);
+                String buf = serializer.serialize(env);
                 if (buf != null) {
                     try {
-                        paramFile.act(new FilePath.FileCallable<Void>() {
-                            private static final long serialVersionUID = 1;
-                            @Override
-                            public Void invoke(File file, VirtualChannel channel) throws IOException, InterruptedException {
-                                if (file.exists()) {
-                                    file.delete();
-                                }
-                                BufferedWriter bw = new BufferedWriter(
-                                        new OutputStreamWriter(new FileOutputStream(file), CharEncoding.UTF_8));
-                                bw.write(buf);
-                                bw.close();
-                                return null;
-                            }
-                        });
+                        paramFile.act(new ParametersExporter(buf));
                         listener.getLogger().println("Stored the below parameters into " + paramFile.getRemote());
                         for (String key : env.keySet()) {
                             listener.getLogger().println(key);
@@ -162,6 +150,38 @@ public class ExportParametersBuilder extends Builder {
     @Override
     public DescriptorImpl getDescriptor() {
         return (DescriptorImpl) super.getDescriptor();
+    }
+
+    /**
+     * A class to export parameters to a file.
+     *
+     * @author rinrinne (rinrin.ne@gmail.com)
+     */
+    private static final class ParametersExporter implements FileCallable<Void> {
+
+        private static final long serialVersionUID = 1;
+        private final String buffer;
+
+        /**
+         * Constructor.
+         *
+         * @param parameters the string that contanins parameters.
+         */
+        public ParametersExporter(String parameters) {
+            this.buffer = parameters;
+        }
+
+        @Override
+        public Void invoke(File file, VirtualChannel channel) throws IOException, InterruptedException {
+            if (file.exists()) {
+                file.delete();
+            }
+            BufferedWriter bw = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(file), CharEncoding.UTF_8));
+            bw.write(buffer);
+            bw.close();
+            return null;
+        }
     }
 
     /**
