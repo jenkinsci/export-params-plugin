@@ -60,7 +60,7 @@ public class RegExpFilter extends Filter {
         if (action != null) {
             for (ParameterValue param : action.getParameters()) {
                 if (regExp.matcher(param.getName()).matches()) {
-                    param.buildEnvVars(build, env);
+                    param.buildEnvironment(build, env);
                 }
             }
         }

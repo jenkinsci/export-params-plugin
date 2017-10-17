@@ -70,11 +70,11 @@ public class PlainListFilter extends Filter {
         if (action != null) {
             for (ParameterValue param : action.getParameters()) {
                 if (prefs.size() == 0) {
-                    param.buildEnvVars(build, env);
+                    param.buildEnvironment(build, env);
                 } else {
                     for (String pref : prefs) {
                         if (param.getName().startsWith(pref)) {
-                            param.buildEnvVars(build, env);
+                            param.buildEnvironment(build, env);
                             break;
                         }
                     }
