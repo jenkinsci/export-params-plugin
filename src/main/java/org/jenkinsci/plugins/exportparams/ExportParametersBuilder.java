@@ -43,7 +43,6 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
-import hudson.FilePath.FileCallable;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
@@ -51,6 +50,8 @@ import hudson.model.BuildListener;
 import hudson.remoting.VirtualChannel;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
+
+import jenkins.MasterToSlaveFileCallable;
 
 /**
  * A builder to export parameters to file.
@@ -157,7 +158,7 @@ public class ExportParametersBuilder extends Builder {
      *
      * @author rinrinne (rinrin.ne@gmail.com)
      */
-    private static final class ParametersExporter implements FileCallable<Void> {
+    private static final class ParametersExporter extends MasterToSlaveFileCallable<Void> {
 
         private static final long serialVersionUID = 1;
         private final String buffer;
