@@ -26,9 +26,8 @@ package org.jenkinsci.plugins.exportparams.serializer;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-
-import org.apache.commons.lang.CharEncoding;
 
 /**
  * A serializer for XML.
@@ -40,8 +39,8 @@ public class XMLSerializer extends PropertiesSerializer {
     @Override
     public void doStore(Properties props, Writer writer) throws IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        props.storeToXML(os, null, CharEncoding.UTF_8);
-        writer.write(os.toString(CharEncoding.UTF_8));
+        props.storeToXML(os, null, StandardCharsets.UTF_8.name());
+        writer.write(os.toString(StandardCharsets.UTF_8.name()));
         writer.flush();
         os.close();
     }

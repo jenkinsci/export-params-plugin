@@ -28,10 +28,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.exportparams.filter.Filter;
 import org.jenkinsci.plugins.exportparams.filter.FilterFactory;
@@ -176,7 +176,7 @@ public class ExportParametersBuilder extends Builder {
             }
             if (deleted) {
               BufferedWriter bw = new BufferedWriter(
-                      new OutputStreamWriter(new FileOutputStream(file), CharEncoding.UTF_8));
+                      new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
               bw.write(buffer);
               bw.close();
             }

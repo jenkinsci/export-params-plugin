@@ -33,8 +33,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.CharEncoding;
-
 /**
  * A serializer for Java properties.
  *
@@ -57,14 +55,14 @@ public class PropertiesSerializer implements Serializer {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         OutputStreamWriter osw;
         try {
-            osw = new OutputStreamWriter(os, CharEncoding.UTF_8);
+            osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
         } catch (Exception ex) {
             osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
         }
         String buf = null;
         try {
             doStore(props, osw);
-            buf = os.toString(CharEncoding.UTF_8);
+            buf = os.toString(StandardCharsets.UTF_8.name());
         } catch (Exception ex) {
             return null;
         } finally {
