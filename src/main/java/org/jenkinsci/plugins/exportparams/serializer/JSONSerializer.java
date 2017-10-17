@@ -28,12 +28,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import net.sf.json.JSON;
+import net.sf.json.JSONException;
 
-import org.apache.commons.lang.CharEncoding;
 import org.jenkinsci.plugins.exportparams.model.Parameter;
 
 import hudson.EnvVars;
@@ -54,10 +56,10 @@ public class JSONSerializer implements Serializer {
      */
     public String serialize(EnvVars env) {
         Collection<Parameter> params = new ArrayList<Parameter>();
-        for (String key : env.keySet()) {
+        for (Map.Entry<String,String> e : env.entrySet()) {
             Parameter param = new Parameter();
-            param.key = key;
-            param.value = env.get(key);
+            param.key = e.getKey();
+            param.value = e.getValue();
             params.add(param);
         }
         JSON json = net.sf.json.JSONSerializer.toJSON(params);
@@ -66,16 +68,11 @@ public class JSONSerializer implements Serializer {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             OutputStreamWriter osw;
             try {
-                osw = new OutputStreamWriter(os, CharEncoding.UTF_8);
-            } catch (UnsupportedEncodingException ueex) {
-                osw = new OutputStreamWriter(os);
-            }
-
-            try {
+                osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
                 json.write(osw);
                 osw.flush();
                 ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
-                InputStreamReader reader = new InputStreamReader(is, CharEncoding.UTF_8);
+                InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
                 StringBuilder builder = new StringBuilder();
 
                 char[] charBuf = new char[1024];
@@ -86,7 +83,6 @@ public class JSONSerializer implements Serializer {
                 }
                 buf = builder.toString();
                 is.close();
-
             } catch (Exception ex) {
                 buf = null;
             } finally {

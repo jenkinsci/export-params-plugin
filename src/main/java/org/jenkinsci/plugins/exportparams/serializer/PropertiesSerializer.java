@@ -29,6 +29,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.CharEncoding;
@@ -48,8 +50,8 @@ public class PropertiesSerializer implements Serializer {
      */
     public String serialize(EnvVars env) {
         Properties props = new Properties();
-        for (String key : env.keySet()) {
-            props.setProperty(key, env.get(key));
+        for (Map.Entry<String,String> e : env.entrySet()) {
+            props.setProperty(e.getKey(), e.getValue());
         }
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -57,7 +59,7 @@ public class PropertiesSerializer implements Serializer {
         try {
             osw = new OutputStreamWriter(os, CharEncoding.UTF_8);
         } catch (Exception ex) {
-            osw = new OutputStreamWriter(os);
+            osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
         }
         String buf = null;
         try {

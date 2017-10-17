@@ -52,10 +52,10 @@ public class YAMLSerializer implements Serializer {
      */
     public String serialize(EnvVars env) {
         Collection<Parameter> params = new ArrayList<Parameter>();
-        for (String key : env.keySet()) {
+        for (Map.Entry<String,String> e : env.entrySet()) {
             Parameter param = new Parameter();
-            param.key = key;
-            param.value = env.get(key);
+            param.key = e.getKey();
+            param.value = e.getValue();
             params.add(param);
         }
 

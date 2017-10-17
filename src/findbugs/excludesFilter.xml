@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!-- NM_METHOD_NAMING_CONVENTION -->
+    <Match>
+        <Class name="org.jenkinsci.plugins.exportparams.Messages" />
+        <Method name="PluginBuilderDescription" />
+        <Bug pattern="NM_METHOD_NAMING_CONVENTION" />
+    </Match>
+</FindBugsFilter>

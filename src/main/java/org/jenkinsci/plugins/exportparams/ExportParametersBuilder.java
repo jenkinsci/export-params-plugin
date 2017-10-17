@@ -132,16 +132,12 @@ public class ExportParametersBuilder extends Builder {
             if (serializer != null) {
                 String buf = serializer.serialize(env);
                 if (buf != null) {
-                    try {
-                        paramFile.act(new ParametersExporter(buf));
-                        listener.getLogger().println("Stored the below parameters into " + paramFile.getRemote());
-                        for (String key : env.keySet()) {
-                            listener.getLogger().println(key);
-                        }
-                        build.addAction(new ExportParametersInvisibleAction(paramFile.getRemote(), fileFormat));
-                    } catch (Exception ex) {
-                        listener.getLogger().println("Could not store parameters into " + paramFile.getRemote());
+                    paramFile.act(new ParametersExporter(buf));
+                    listener.getLogger().println("Stored the below parameters into " + paramFile.getRemote());
+                    for (String key : env.keySet()) {
+                        listener.getLogger().println(key);
                     }
+                    build.addAction(new ExportParametersInvisibleAction(paramFile.getRemote(), fileFormat));
                 }
             }
         }
@@ -174,13 +170,16 @@ public class ExportParametersBuilder extends Builder {
 
         @Override
         public Void invoke(File file, VirtualChannel channel) throws IOException, InterruptedException {
+            boolean deleted = true;
             if (file.exists()) {
-                file.delete();
+                deleted = file.delete();
             }
-            BufferedWriter bw = new BufferedWriter(
-                    new OutputStreamWriter(new FileOutputStream(file), CharEncoding.UTF_8));
-            bw.write(buffer);
-            bw.close();
+            if (deleted) {
+              BufferedWriter bw = new BufferedWriter(
+                      new OutputStreamWriter(new FileOutputStream(file), CharEncoding.UTF_8));
+              bw.write(buffer);
+              bw.close();
+            }
             return null;
         }
     }
