@@ -1,3 +1,4 @@
+<?jelly escape-by-default='true'?>
 <div>
   This plugin exports parameters provided by Jenkins to file with various formats.
 </div>
