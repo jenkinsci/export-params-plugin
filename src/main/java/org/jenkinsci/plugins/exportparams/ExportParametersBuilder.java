@@ -124,20 +124,23 @@ public class ExportParametersBuilder extends Builder {
                 path = filePath + "." + fileFormat;
             }
 
-            FilePath paramFile = new FilePath(build.getWorkspace(), path);
-            Filter filter = FilterFactory.createFilter(keyPattern, useRegexp);
-            EnvVars env = filter.apply(build);
+            FilePath workSpace = build.getWorkspace();
+            if (workSpace != null) {
+                FilePath paramFile = new FilePath(workSpace, path);
+                Filter filter = FilterFactory.createFilter(keyPattern, useRegexp);
+                EnvVars env = filter.apply(build);
 
-            Serializer serializer = SerializerFactory.createSerializer(fileFormat);
-            if (serializer != null) {
-                String buf = serializer.serialize(env);
-                if (buf != null) {
-                    paramFile.act(new ParametersExporter(buf));
-                    listener.getLogger().println("Stored the below parameters into " + paramFile.getRemote());
-                    for (String key : env.keySet()) {
-                        listener.getLogger().println(key);
+                Serializer serializer = SerializerFactory.createSerializer(fileFormat);
+                if (serializer != null) {
+                    String buf = serializer.serialize(env);
+                    if (buf != null) {
+                        paramFile.act(new ParametersExporter(buf));
+                        listener.getLogger().println("Stored the below parameters into " + paramFile.getRemote());
+                        for (String key : env.keySet()) {
+                            listener.getLogger().println(key);
+                        }
+                        build.addAction(new ExportParametersInvisibleAction(paramFile.getRemote(), fileFormat));
                     }
-                    build.addAction(new ExportParametersInvisibleAction(paramFile.getRemote(), fileFormat));
                 }
             }
         }
