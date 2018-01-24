@@ -46,7 +46,8 @@ public class YAMLSerializer implements Serializer {
 
     /**
      * Gets serialized string with YAML format.
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @param env the env.
      * @return serialized string.
      */

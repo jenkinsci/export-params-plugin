@@ -49,7 +49,7 @@ public class JSONSerializer implements Serializer {
 
     /**
      * Gets serialized string with properties format.
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @param env the env.
      * @return serialized string.
